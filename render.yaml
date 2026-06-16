@@ -1,0 +1,21 @@
+# Render Blueprint (infra-as-code) for Tideline.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# To use: in the Render dashboard, New → Blueprint, point it at this repo.
+# Render reads this file and provisions the service below. The only thing you
+# set by hand is the ANTHROPIC_API_KEY secret (sync: false keeps it out of git).
+services:
+  - type: web
+    name: tideline
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false # set this secret in the Render dashboard, never in git
+      - key: CLAUDE_MODEL
+        value: claude-sonnet-4-6
+      # Render injects PORT automatically; server.js already reads process.env.PORT.
