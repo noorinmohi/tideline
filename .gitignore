@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# secrets — never commit your API key
+.env
+.env.local
+
+# logs / os files
+*.log
+.DS_Store
