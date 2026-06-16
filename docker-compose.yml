@@ -1,0 +1,15 @@
+# Local containerized run: `docker compose up --build`
+# Then open http://localhost:3001
+services:
+  tideline:
+    build: .
+    image: tideline:local
+    ports:
+      - "3001:3001"
+    environment:
+      # Pulled from your local .env (gitignored) if present. Without a real
+      # ANTHROPIC_API_KEY the app still runs — /api/chat just returns 500.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL: ${CLAUDE_MODEL:-claude-sonnet-4-6}
+      PORT: "3001"
+    restart: unless-stopped

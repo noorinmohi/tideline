@@ -53,6 +53,23 @@ npm run build     # bundles the UI into /dist
 npm start         # Express serves /dist and the /api proxy on port 3001
 ```
 
+## Run with Docker
+
+The app is containerized with a multi-stage build (build the Vite frontend, then a slim Alpine runtime that serves it via Express as a non-root user):
+
+```bash
+docker compose up --build      # builds the image and starts on http://localhost:3001
+```
+
+Or with plain Docker:
+
+```bash
+docker build -t tideline .
+docker run -p 3001:3001 --env-file .env tideline
+```
+
+The image runs without an API key (the journal UI works; `/api/chat` returns 500 until `ANTHROPIC_API_KEY` is set). A `HEALTHCHECK` reports container health once the app shell is served.
+
 ## Publish to GitHub
 
 ```bash
